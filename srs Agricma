@@ -7,12 +7,12 @@ Purpose:
 Allows user to make purchase of livestock and food on a mobile platform. Agricma seeks to also partner with restaurants inorder to help them sell on the platform. 
 
 Categories:
-Livestock and Food
+All, Livestock and Food
 
 User perspective:
 Role of a user:
-- signups with username and email or with google or with facebook
--view and buy items under the  different the categories mentioned above.
+- signups with username and email or with google or with facebook authentication
+-view and buy items under the  different categories mentioned above.
 -send feedbacks or make reports. 
 
 Description of how sales are closed:
@@ -22,3 +22,5 @@ Description of how sales are closed:
 - if available, clicks on the "Buy now" button
 - user is asked to enter location for delivery or click auto search my location
 - Auto search my location picks the location of user device 
+- payment is done throught Orange or MTN momo 
+
