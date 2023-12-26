@@ -1,7 +1,7 @@
 import requests
 import os
 
-url = "http://127.0.0.1:8000/api/imgdata/1"
+url = "https://agricma-backend.onrender.com/api/imgdata/1"
 
 payload = {}
 files={}
@@ -10,7 +10,7 @@ headers = {
 }
 
 response = requests.request("GET", url, headers=headers, data=payload, files=files)
-print(response.text)
+print(response)
 
 # with open('media/images/api_img/trial.jpg', 'w') as image_file:
 #     response = image_file.write(response.content)
