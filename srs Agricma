@@ -1,0 +1,24 @@
+System requirement specification 
+System summary
+
+Name of the app: Agricma market
+
+Purpose:
+Allows user to make purchase of livestock and food on a mobile platform. Agricma seeks to also partner with restaurants inorder to help them sell on the platform. 
+
+Categories:
+Livestock and Food
+
+User perspective:
+Role of a user:
+- signups with username and email or with google or with facebook
+-view and buy items under the  different the categories mentioned above.
+-send feedbacks or make reports. 
+
+Description of how sales are closed:
+-user finds a products
+- clicks on it to find full details
+- checks to see if the product is checked available or not
+- if available, clicks on the "Buy now" button
+- user is asked to enter location for delivery or click auto search my location
+- Auto search my location picks the location of user device 
