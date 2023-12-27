@@ -1,16 +1,18 @@
 import requests
 import os
 
-url = "https://agricma-backend.onrender.com/api/imgdata/1"
+# url = "https://agricma-backend.onrender.com/api/imgdata/1"
+url = "http://127.0.0.1:8000/api/imgdata/1"
 
 payload = {}
 files={}
 headers = {
+    'Bearer': 'trial',
   'Authorization': 'YAAI5Vim.CDcomUFQOpsu7ZNoglbpi66pqUgEdaP7'
 }
 
 response = requests.request("GET", url, headers=headers, data=payload, files=files)
-print(response)
+print(response.text)
 
 # with open('media/images/api_img/trial.jpg', 'w') as image_file:
 #     response = image_file.write(response.content)

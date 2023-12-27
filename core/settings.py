@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'api',
     # 3rd party
     'rest_framework',
-    'rest_framework_api_key'
+    'rest_framework_api_key',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

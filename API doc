@@ -1,0 +1,15 @@
+Welcome to the api doc
+Endpoints
+GET IMAGE DATA
+
+
+https://agricma-backend.onrender.com/api/imgdata/id
+
+GET AN IMAGE
+
+
+https://agricma-backend.onrender.com/api/img/id
+
+Structure of request header
+header = { 'Bearer': 'bear key word', 
+	  'Authorization': 'api_key', }
