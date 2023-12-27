@@ -2,8 +2,8 @@ import requests
 import os
 
 # url = "https://agricma-backend.onrender.com/api/imgdata/1"
-url = "http://127.0.0.1:8000/api/imgdata/1"
-
+# url = "http://127.0.0.1:8000/api/img/"
+url = 'http://127.0.0.1:8000/api/images/'
 payload = {}
 files={}
 headers = {
