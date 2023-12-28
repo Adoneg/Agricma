@@ -1,16 +1,31 @@
 import requests
 import os
 
-# url = "https://agricma-backend.onrender.com/api/imgdata/1"
-url = "http://127.0.0.1:8000/api/images/"
-# url = 'https://agricma-backend.onrender.com/api/images/'
+url = "http://127.0.0.1:8000/api/cat/"  #get all category 
+# url = "http://127.0.0.1:8000/api/prod_cat/"  #get prod of a particular category 
+# url = 'https://agricma-backend.onrender.com/api/prod_data/'  #get data about prods
+# url = 'http://127.0.0.1:8000/api/images/'   #get data about prods, localhost
 payload = {}
 files={}
+
+# get all categories
 headers = {
     'Bearer': 'products',
   'Authorization': '4unuOrSC.XlE8j7TtYyQI81dlhpGhllrYmxTWjMOU'
 }
 
+# get prod of a category
+# headers = {
+#     'cat': 'lIvestock',
+#     'Bearer': 'products',
+#   'Authorization': '4unuOrSC.XlE8j7TtYyQI81dlhpGhllrYmxTWjMOU'
+# }
+
+# get prod_data
+# headers = {
+#     'Bearer': 'products',
+#   'Authorization': '4unuOrSC.XlE8j7TtYyQI81dlhpGhllrYmxTWjMOU'
+# }
 response = requests.request("GET", url, headers=headers, data=payload, files=files)
 print(response.text)
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # # Create your models here.
 
@@ -8,12 +9,16 @@ from django.contrib.auth.models import User
 def user_directory_path(instance, filename):
     return 'images/{0}/'.format(filename)
 
+def validate_lowercase(value):
+    if value != value.lower():
+        raise ValidationError('value must be lower case')
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, validators= [validate_lowercase])
 
     def __str__(self):
         return self.name
+    
     class Meta:
         verbose_name_plural =  'Categories'
 

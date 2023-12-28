@@ -9,4 +9,7 @@ class AuthorAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('title',), }, title goes to slug field
 
 
-admin.site.register(models.Category)
+@admin.register(models.Category)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id', )
+
