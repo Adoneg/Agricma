@@ -1,6 +1,6 @@
-# from django.db import models
-# from django.utils import timezone
-# from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 # # Create your models here.
 
@@ -9,36 +9,29 @@ def user_directory_path(instance, filename):
     return 'images/{0}/'.format(filename)
 
 
-# class Category(models.Model):
-#     name = models.CharField(max_length=100)
+class Category(models.Model):
+    name = models.CharField(max_length=100)
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name_plural =  'Categories'
 
+class Product(models.Model):
 
-# class Images(models.Model):
-
-#     options = (
-#         ('active', 'Active'),
-#         ('deactivated', 'Deactivated'),
-#     )
-
-#     category = models.ForeignKey(Category, on_delete=models.PROTECT, default='1')
-#     title = models.CharField(max_length=250)
-#     price = models.IntegerField(default=0)
-#     alt = models.TextField(null=True)
-#     image = models.ImageField(
-#         upload_to=user_directory_path, default='posts/default.jpg')
-#     slug = models.SlugField(max_length=250, unique_for_date='created') #SEO -friendly version of a string
-#     created = models.DateTimeField(default=timezone.now)
-#     author = models.ForeignKey(
-#         User, on_delete=models.PROTECT, related_name='author')
-#     status = models.CharField(max_length=11, choices=options, default='active')
-
-# models.py
-
-from django.db import models
-
-class Image(models.Model):
+    options = (
+        ('active', 'Active'),
+        ('deactivated', 'Deactivated'),
+    )
     title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    nutritive_benefits = models.CharField(max_length=255)
     image = models.ImageField(upload_to=user_directory_path)
+    price = models.IntegerField(default=0)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, default='1')
+    created = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=11, choices=options, default='active')
+
+    class Meta:
+        verbose_name_plural =  'Products'
+

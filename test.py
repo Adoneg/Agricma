@@ -2,13 +2,13 @@ import requests
 import os
 
 # url = "https://agricma-backend.onrender.com/api/imgdata/1"
-# url = "http://127.0.0.1:8000/api/img/"
-url = 'http://127.0.0.1:8000/api/images/'
+url = "http://127.0.0.1:8000/api/images/"
+# url = 'https://agricma-backend.onrender.com/api/images/'
 payload = {}
 files={}
 headers = {
-    'Bearer': 'trial',
-  'Authorization': 'YAAI5Vim.CDcomUFQOpsu7ZNoglbpi66pqUgEdaP7'
+    'Bearer': 'products',
+  'Authorization': '4unuOrSC.XlE8j7TtYyQI81dlhpGhllrYmxTWjMOU'
 }
 
 response = requests.request("GET", url, headers=headers, data=payload, files=files)

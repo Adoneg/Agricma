@@ -12,11 +12,9 @@ class HasAPIKey(BasePermission):
         # print(f"\n\n{sent_api_key_prefix}\n\n")
         # Perform validation of the API key here
 
-        api_key = APIKey.objects.get(name='trial')
-
-        print(f"\n\n{api_key.name}\n\n")
-
-        if sent_api_key_prefix == api_key.prefix and api_key.name == bearer:  # Replace with your actual API key validation logic
-            return True
-        else:
-            return False
+        if APIKey.objects.filter(name=bearer).exists():
+            api_key= APIKey.objects.get(name=bearer)
+            if sent_api_key_prefix == api_key.prefix:  # Replace with your actual API key validation logic
+                return True
+            else:
+                return False

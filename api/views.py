@@ -13,7 +13,7 @@
 # from django.http import HttpResponse
 # from PIL import Image
 # # from rest_framework_api_key.permissions import HasAPIKey
-# from .permissions import HasAPIKey
+from .permissions import HasAPIKey
 # from rest_framework.views import APIView
 # from rest_framework_api_key.models import APIKey
 # # @api_view(['GET']) used for function based views
@@ -65,9 +65,11 @@
 # views.py
 
 from rest_framework import generics
-from images.models import Image
+from images.models import Product
 from images.serializers import ImageSerializer
 
 class ImageListAPIView(generics.ListAPIView):
-    queryset = Image.objects.all()
+    permission_classes = [HasAPIKey]
+
+    queryset = Product.objects.all()
     serializer_class = ImageSerializer
