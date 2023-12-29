@@ -7,7 +7,6 @@ class HasAPIKey(BasePermission):
         # Add your logic to validate the API key from the request
         sent_api_key = request.META.get('HTTP_AUTHORIZATION')  # Example: Retrieve API key from request headers
         bearer = request.META.get('HTTP_BEARER')  # Example: Retrieve API key from request headers
-        print(f"\n\n{sent_api_key}\n\n")
         sent_api_key_prefix = sent_api_key.split('.')[0]
         # print(f"\n\n{sent_api_key_prefix}\n\n")
         # Perform validation of the API key here

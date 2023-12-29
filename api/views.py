@@ -18,6 +18,18 @@ class ProdListAPIView(generics.ListAPIView):
            queryset = Category.objects.get(id=item['category'])
            catSerializer = CategorySerializer(queryset)
 
+
+            # getting a list of nutritive benefits
+           nutritive_benefits = []
+           str = ''
+           for letter in item['nutritive_benefits']:
+               if letter == ',':
+                nutritive_benefits.append(str)
+                str = ''
+               else:
+                  str += letter
+
+
            data.append({
                         'id': item['id'],
                         "cat": catSerializer.data['name'],
@@ -26,7 +38,7 @@ class ProdListAPIView(generics.ListAPIView):
                         "product": item['image'],
                         "status": item['status'],
                         "description": item['description'],
-                        "nutritive_benefits": item['nutritive_benefits'],
+                        "nutritive_benefits": nutritive_benefits,
                         "created": item['created'],
                         })
         return Response(data)

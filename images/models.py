@@ -11,7 +11,12 @@ def user_directory_path(instance, filename):
 
 def validate_lowercase(value):
     if value != value.lower():
-        raise ValidationError('value must be lower case')
+        raise ValidationError('VALUE MUST BE LOWERCASE')
+    
+def validate_comma(value):
+    print(f'\n\n{value[-1]}\n\n\n')
+    if value[-1] != ',':
+        raise ValidationError("VALUE MUST END WITH A COMMA ','")
 
 class Category(models.Model):
     name = models.CharField(max_length=100, validators= [validate_lowercase])
@@ -30,7 +35,7 @@ class Product(models.Model):
     )
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    nutritive_benefits = models.CharField(max_length=255)
+    nutritive_benefits = models.CharField(max_length=255, validators= [validate_comma], help_text="Enter list separated with commas, end with a comma too ','")
     image = models.ImageField(upload_to=user_directory_path)
     price = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default='1')
