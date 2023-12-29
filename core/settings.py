@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Local Apps
     'images',
     'api',
+    'otp',
     # 3rd party
     'rest_framework',
     'rest_framework_api_key',
