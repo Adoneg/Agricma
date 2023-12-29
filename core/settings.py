@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -137,22 +137,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# REST_FRAMEWORK = {
-#     "DEFAULT_PERMISSION_CLASSES": [
-#         "rest_framework_api_key.permissions.HasAPIKey",
-#     ]
-# }
-
-# REST_FRAMEWORK = {
-# 'DEFAULT_AUTHENTICATION_CLASSES':(
-# 'rest_framework.authentication.TokenAuthentication',
-# # for browsable api view usage
-# 'rest_framework.authentication.SessionAuthentication',
-# 'rest_framework.authentication.BasicAuthentication',
-
-# ),
-# 'DEFAULT_PERMISSION_CLASSES': (
-# 'rest_framework_api_key.permissions.HasAPIKey',
-# ),
-# }
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
