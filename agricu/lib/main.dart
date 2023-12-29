@@ -14,13 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: dismissKeyboard,
-      child: const ScreenUtilInit(
-        designSize: Size(360, 690),
+      child: ScreenUtilInit(
+        designSize: Size(width, height),
         minTextAdapt: true,
         splitScreenMode: true,
-        child: MaterialApp(
+        child: const MaterialApp(
           title: 'Agricu',
           home: OnBoarding(),
           onGenerateRoute: RouterClass.onGenerateRoute,
