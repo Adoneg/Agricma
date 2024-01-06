@@ -50,7 +50,7 @@ class _OnBoardingState extends State<OnBoarding> {
           children: [
             SizedBox(
               width: ScreenUtil.defaultSize.width,
-              height: 410.h,
+              height: 400.h,
               child: PageView.builder(
                   controller: controller,
                   itemCount: 3,

@@ -2,10 +2,11 @@ import 'package:agricu/routes/routes.dart';
 import 'package:agricu/screens/onboarding/view/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dotenv/dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  DotEnv().load();
   runApp(const MyApp());
 }
 
@@ -18,11 +19,10 @@ class MyApp extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: dismissKeyboard,
-      child: ScreenUtilInit(
-        designSize: Size(width, height),
+      child: const ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,
-        child: const MaterialApp(
+        child: MaterialApp(
           title: 'Agricu',
           home: OnBoarding(),
           onGenerateRoute: RouterClass.onGenerateRoute,

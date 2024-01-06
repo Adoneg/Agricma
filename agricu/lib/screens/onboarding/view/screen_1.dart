@@ -13,8 +13,8 @@ class ScreenOne extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-            height: 200.h,
-            width: 200.h,
+            height: 150.h,
+            width: 150.h,
             child: Image.asset("assets/images/onboarding1.png")),
         const Gap(40),
         Text(

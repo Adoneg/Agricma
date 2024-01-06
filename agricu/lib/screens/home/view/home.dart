@@ -20,11 +20,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(),
+      create: (context) => HomeBloc()..add(GetProductsEvent()),
       child: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
             extendBody: true,
@@ -53,7 +51,7 @@ class _HomeState extends State<Home> {
                   ),
                   Expanded(
                       child: Container(
-                    decoration: BoxDecoration(color: Colors.white),
+                    decoration: const BoxDecoration(color: Colors.white),
                     child: Column(
                       children: [
                         const Gap(40),
