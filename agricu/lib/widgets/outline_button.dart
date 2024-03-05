@@ -17,7 +17,7 @@ class OutlineButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      child: OutlinedButton(
+      child: ElevatedButton(
           style: ButtonStyle(
             padding: MaterialStatePropertyAll(EdgeInsets.all(padding ?? 15)),
             shape: MaterialStatePropertyAll(

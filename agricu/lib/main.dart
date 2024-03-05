@@ -1,31 +1,39 @@
+import 'package:agricu/repository/authentication_repository.dart';
+import 'package:agricu/repository/user_repository.dart';
 import 'package:agricu/routes/routes.dart';
-import 'package:agricu/screens/onboarding/view/onboarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dotenv/dotenv.dart';
+import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: 'https://eeaishkcqlgpesbzcssy.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVlYWlzaGtjcWxncGVzYnpjc3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDg1MTg1NzksImV4cCI6MjAyNDA5NDU3OX0.dWBjVH9kukKNCIxceJ-712cE8pGmHiy5f-IR9I-k4-8',
+  );
+
   DotEnv().load();
-  runApp(const MyApp());
+  final routes = RouterClass.instance;
+  runApp(MyApp(routes: routes.getRoutes()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({super.key, required this.routes});
+  final GoRouter routes;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: dismissKeyboard,
-      child: const ScreenUtilInit(
+      child: ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,
-        child: MaterialApp(
+        child: MaterialApp.router(
           title: 'Agricu',
-          home: OnBoarding(),
-          onGenerateRoute: RouterClass.onGenerateRoute,
+          routerConfig: routes,
         ),
       ),
     );

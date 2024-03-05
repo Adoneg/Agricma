@@ -20,11 +20,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc()..add(GetProductsEvent()),
+      create: (context) => HomeBloc(),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.add),
+            ),
             extendBody: true,
             body: Stack(children: [
               Column(
@@ -172,28 +176,6 @@ class _HomeState extends State<Home> {
                 ),
               )
             ]),
-            bottomNavigationBar: BottomNavigationBar(
-                selectedItemColor: lightGreen,
-                unselectedItemColor: Colors.grey,
-                showSelectedLabels: true,
-                selectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
-                unselectedLabelStyle: const TextStyle(fontFamily: 'Poppins'),
-                showUnselectedLabels: true,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home_outlined,
-                        color: lightGreen,
-                      ),
-                      label: 'Home'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.shopping_cart_outlined),
-                      label: 'Shopping Cart'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.favorite_outline), label: 'Favourite'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person_outline), label: 'My account')
-                ]),
           );
         },
       ),

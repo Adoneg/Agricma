@@ -1,50 +1,126 @@
-import 'package:agricu/screens/auth/auth_startup_screen/auth_startup_screen.dart';
-import 'package:agricu/screens/auth/digit_code_verification/view/digit_code_verification.dart';
-import 'package:agricu/screens/auth/phoneVerification/view/phone_verification_screen.dart';
-import 'package:agricu/screens/auth/user_information/view/user_information_screen.dart';
+import 'dart:developer';
+
+import 'package:agricu/repository/authentication_repository.dart';
+import 'package:agricu/repository/user_repository.dart';
+import 'package:agricu/routes/navigation_keys.dart';
+import 'package:agricu/routes/route_names.dart';
+import 'package:agricu/screens/auth/forgot_password/forgot_password_screen.dart';
+import 'package:agricu/screens/auth/login/login_screen.dart';
+import 'package:agricu/screens/auth/signup/signup_screen.dart';
+import 'package:agricu/screens/auth/verify_email.dart';
+import 'package:agricu/screens/favourites/view/favourites_screen.dart';
 import 'package:agricu/screens/home/view/home.dart';
-import 'package:agricu/screens/onboarding/view/onboarding_view.dart';
-import 'package:flutter/material.dart';
+import 'package:agricu/screens/profile/view/profile_screen.dart';
+import 'package:agricu/screens/shopping_cart/view/shopping_cart_screen.dart';
+import 'package:agricu/screens/wrapper.dart';
+import 'package:go_router/go_router.dart';
 
 class RouterClass {
-  static Route onGenerateRoute(RouteSettings settings) {
-    return switch (settings.name) {
-      '/' => MaterialPageRoute(builder: (context) {
-          return const Home();
-        }),
-      '/authStartUp' => MaterialPageRoute(builder: (context) {
-          return const AuthStartUp();
-        }),
-      '/phoneVerification' => MaterialPageRoute(builder: (context) {
-          return PhoneVerification();
-        }),
-      '/digitCodeVerification' => MaterialPageRoute(builder: (context) {
-          return DigitCodeVerification();
-        }),
-      '/userInformation' => MaterialPageRoute(builder: (context) {
-          return UserInformation();
-        }),
-      '/onboarding' => MaterialPageRoute(builder: (context) {
-          return const OnBoarding();
-        }),
-      // '/foodDetails' => MaterialPageRoute(builder: (context) {
-      //     return ProductDetails(product: settings.,);
-      //   }),
-      '/shoppingCart' => MaterialPageRoute(builder: (context) {
-          return AppBar();
-        }),
-      '/account' => MaterialPageRoute(builder: (context) {
-          return AppBar();
-        }),
-      '/favourite' => MaterialPageRoute(builder: (context) {
-          return AppBar();
-        }),
-      null => MaterialPageRoute(builder: (context) {
-          return Container();
-        }),
-      String() => MaterialPageRoute(builder: (context) {
-          return Container();
-        }),
-    };
+  static RouterClass? _instance; // Private instance variable
+
+  final UserRepository userRepository;
+  final AuthenticationRepository authenticationRepository;
+
+  RouterClass._({
+    required this.authenticationRepository,
+    required this.userRepository,
+  });
+
+  static RouterClass get instance {
+    _instance ??= RouterClass._(
+      authenticationRepository: AuthenticationRepository(),
+      userRepository: UserRepository(),
+    );
+    return _instance!;
   }
+
+  GoRouter getRoutes() {
+    return GoRouter(
+        initialLocation: RoutePath.home,
+        navigatorKey: rootNavigatorKey,
+        redirect: (context, state) async {
+//           final user = authenticationRepository.currentUser;
+//           // if (state.fullPath != null) {
+//           //   return state.fullPath;
+//           // }
+//           log('redirect running');
+//           if (user != null && state.) {
+//             log('redirect runninga');
+//             return RoutePath.home;
+//           }
+//           if (user == null) {
+//             log('redirect running asdf');
+//             return RoutePath.login;
+//           }
+// d
+//           return null;
+        },
+        routes: [
+          GoRoute(
+              path: RoutePath.login,
+              builder: (context, state) {
+                return const LoginScreen();
+              },
+              routes: [
+                GoRoute(
+                  name: RoutePath.forgotPasswordSub,
+                  path: RoutePath.forgotPasswordSub,
+                  builder: (context, state) {
+                    return const ForgotPasswordScreen();
+                  },
+                ),
+              ]),
+          GoRoute(
+              path: RoutePath.signup,
+              builder: (context, state) {
+                return const SignUpScreen();
+              }),
+          GoRoute(
+              path: RoutePath.VerifyEmail,
+              builder: (context, state) {
+                return const VerifyEmail();
+              }),
+          StatefulShellRoute.indexedStack(
+              //    parentNavigatorKey: rootNavigatorKey,
+              builder: (context, state, navigationShell) {
+                return Wrapper(navigationShell: navigationShell);
+              },
+              branches: [
+                StatefulShellBranch(navigatorKey: shellNavigator1Key, routes: [
+                  GoRoute(
+                    path: RoutePath.home,
+                    builder: (context, state) {
+                      return const Home();
+                    },
+                  ),
+                ]),
+                StatefulShellBranch(navigatorKey: shellNavigatorKey, routes: [
+                  GoRoute(
+                    path: RoutePath.shoppingCart,
+                    builder: (context, state) {
+                      return const ShoppingCartScreen();
+                    },
+                  ),
+                ]),
+                StatefulShellBranch(navigatorKey: shellNavigator2Key, routes: [
+                  GoRoute(
+                    path: RoutePath.favourites,
+                    builder: (context, state) {
+                      return const FavouriteScreen();
+                    },
+                  ),
+                ]),
+                StatefulShellBranch(navigatorKey: shellNavigator3Key, routes: [
+                  GoRoute(
+                    path: RoutePath.profile,
+                    builder: (context, state) {
+                      return const ProfileScreen();
+                    },
+                  ),
+                ]),
+              ]),
+        ]);
+  }
+
+  GoRouter get routes => getRoutes();
 }
