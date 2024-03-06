@@ -42,7 +42,13 @@ class _HomeState extends State<Home> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset('assets/images/logo.png'),
+                          SizedBox(
+                              height: 65,
+                              width: 65,
+                              child: Image.asset(
+                                'assets/images/agricma_logo.png',
+                                fit: BoxFit.cover,
+                              )),
                           IconButton(
                               onPressed: () {},
                               icon: const Icon(
