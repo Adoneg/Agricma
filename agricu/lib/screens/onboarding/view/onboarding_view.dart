@@ -1,3 +1,5 @@
+import 'package:agricu/repository/authentication_repository.dart';
+import 'package:agricu/routes/route_names.dart';
 import 'package:agricu/screens/onboarding/view/screen_1.dart';
 import 'package:agricu/screens/onboarding/view/screen_2.dart';
 import 'package:agricu/screens/onboarding/view/screen_3.dart';
@@ -7,6 +9,7 @@ import 'package:agricu/widgets/outline_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -32,6 +35,7 @@ class _OnBoardingState extends State<OnBoarding> {
     controller.jumpToPage(2);
   }
 
+  bool onboarding = false;
   @override
   void initState() {
     controller.addListener(() {
@@ -124,19 +128,30 @@ class _OnBoardingState extends State<OnBoarding> {
                     ),
                     const Gap(90),
                     OutlineButtonWidget(
-                      onPressed: () {
+                      onPressed: () async {
                         if (currentPage != 2) {
                           changePage();
                         } else {
-                          Navigator.of(context).pushNamed('/authStartUp');
+                          final authenticationRepository =
+                              AuthenticationRepository();
+                          setState(() {
+                            onboarding = true;
+                          });
+                          await authenticationRepository.setOnboarded();
+                          context.replace(RoutePath.login);
                         }
                       },
                       backgroundColor: darkGreen,
                       width: 150.w,
-                      child: Text(
-                        currentPage == 2 ? 'Get Started' : 'Next',
-                        style: AppStyles.btn,
-                      ),
+                      child: onboarding == true
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.5,
+                            )
+                          : Text(
+                              currentPage == 2 ? 'Get Started' : 'Next',
+                              style: AppStyles.btn,
+                            ),
                     )
                   ],
                 ))

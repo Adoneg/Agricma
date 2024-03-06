@@ -31,3 +31,5 @@ class OnChangedConfirmPassword extends SignupEvent {
 class OnSignupClicked extends SignupEvent {
   OnSignupClicked();
 }
+
+class OnGoogleSignIn extends SignupEvent {}

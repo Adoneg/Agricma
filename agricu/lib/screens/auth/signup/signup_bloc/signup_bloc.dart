@@ -7,7 +7,6 @@ import 'package:agricu/models/user.dart';
 import 'package:agricu/repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';
@@ -47,9 +46,25 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         await auth.signUpEmailAndPassword(appUser, state.password!);
         emit(state.copyWith(loadingState: LoadingState.success));
       } catch (e) {
-        log('$e');
-        emit(state.copyWith(loadingState: LoadingState.failed));
+        log(e.toString());
+        emit(state.copyWith(
+            loadingState: LoadingState.failed, errorMessage: e.toString()));
       }
     });
+
+    on<OnGoogleSignIn>(((event, emit) async {
+      emit(state.copyWith(
+          googleAuthLoading: true, loadingState: LoadingState.initial));
+      try {
+        await auth.googleSignin();
+        emit(state.copyWith(loadingState: LoadingState.success));
+      } catch (e) {
+        log(e.toString());
+        emit(state.copyWith(
+            loadingState: LoadingState.failed,
+            errorMessage: e.toString(),
+            googleAuthLoading: false));
+      }
+    }));
   }
 }

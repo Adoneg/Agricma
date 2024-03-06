@@ -29,10 +29,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           await auth.signInWithEmailAndPassword(state.email!, state.password!);
           emit(state.copyWith(loadingState: LoadingState.success));
         } catch (e) {
-          log('$e');
-          emit(state.copyWith(loadingState: LoadingState.failed));
+          log(e.toString());
+          emit(state.copyWith(
+              loadingState: LoadingState.failed,
+              errorMessage: e.toString(),
+              googleAuthLoading: false));
         }
       },
     );
+    on<OnGoogleSignIn>(((event, emit) async {
+      emit(state.copyWith(loadingState: LoadingState.initial));
+      try {
+        await auth.googleSignin();
+        emit(state.copyWith(loadingState: LoadingState.success));
+      } catch (e) {
+        log(e.toString());
+        emit(state.copyWith(
+            loadingState: LoadingState.failed, errorMessage: e.toString()));
+      }
+    }));
   }
 }

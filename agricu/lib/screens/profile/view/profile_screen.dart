@@ -1,83 +1,100 @@
+import 'package:agricu/enums/loading_state_enum.dart';
+import 'package:agricu/routes/route_names.dart';
+import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
 import 'package:agricu/widgets/profile_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          title: Text(
-            "Profile",
-            style: AppStyles.title.copyWith(fontSize: 20),
-          ),
-        ),
-        body: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.asset(
-                      'assets/images/tropicana.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Text(
-              "Victor Adoneg",
-              style: AppStyles.regular.copyWith(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "hey@gmail.com",
-              style: AppStyles.regular.copyWith(
-                fontSize: 12,
+    return BlocConsumer<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state.signOutState == LoadingState.success) {
+          context.replace(RoutePath.login);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+            appBar: AppBar(
+              scrolledUnderElevation: 0,
+              centerTitle: true,
+              title: Text(
+                "Profile",
+                style: AppStyles.title.copyWith(fontSize: 20),
               ),
             ),
-            ProfileListTile(
-              leadingIcon: Icons.favorite_outline,
-              title: "Favourites",
-              onPressed: () {},
-            ),
-            ProfileListTile(
-              leadingIcon: Icons.mode_edit_outlined,
-              title: "Request to sell",
-              color: brown,
-              onPressed: () {},
-            ),
-            ProfileListTile(
-              leadingIcon: Icons.history,
-              title: "Order History",
-              onPressed: () {},
-            ),
-            ProfileListTile(
-              leadingIcon: Icons.payment,
-              title: "Payment Details",
-              onPressed: () {},
-            ),
-            ProfileListTile(
-              leadingIcon: Icons.settings,
-              title: "Settings",
-              onPressed: () {},
-            ),
-            ProfileListTile(
-              leadingIcon: Icons.logout,
-              title: "Logout",
-              onPressed: () {},
-            ),
-          ],
-        ));
+            body: Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.asset(
+                          'assets/images/tropicana.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  "Victor Adoneg",
+                  style:
+                      AppStyles.regular.copyWith(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "hey@gmail.com",
+                  style: AppStyles.regular.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+                ProfileListTile(
+                  leadingIcon: Icons.favorite_outline,
+                  title: "Favourites",
+                  onPressed: () {},
+                ),
+                ProfileListTile(
+                  leadingIcon: Icons.mode_edit_outlined,
+                  title: "Request to sell",
+                  color: brown,
+                  onPressed: () {},
+                ),
+                ProfileListTile(
+                  leadingIcon: Icons.history,
+                  title: "Order History",
+                  onPressed: () {},
+                ),
+                ProfileListTile(
+                  leadingIcon: Icons.payment,
+                  title: "Payment Details",
+                  onPressed: () {},
+                ),
+                ProfileListTile(
+                  leadingIcon: Icons.settings,
+                  title: "Settings",
+                  onPressed: () {},
+                ),
+                ProfileListTile(
+                  leadingIcon: Icons.logout,
+                  title: "Logout",
+                  onPressed: () {
+                    context.read<ProfileBloc>().add(OnLogout());
+                  },
+                ),
+              ],
+            ));
+      },
+    );
   }
 }

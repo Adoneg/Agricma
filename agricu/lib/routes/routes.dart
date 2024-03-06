@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agricu/repository/authentication_repository.dart';
 import 'package:agricu/repository/user_repository.dart';
 import 'package:agricu/routes/navigation_keys.dart';
@@ -10,6 +8,7 @@ import 'package:agricu/screens/auth/signup/signup_screen.dart';
 import 'package:agricu/screens/auth/verify_email.dart';
 import 'package:agricu/screens/favourites/view/favourites_screen.dart';
 import 'package:agricu/screens/home/view/home.dart';
+import 'package:agricu/screens/onboarding/view/onboarding_view.dart';
 import 'package:agricu/screens/profile/view/profile_screen.dart';
 import 'package:agricu/screens/shopping_cart/view/shopping_cart_screen.dart';
 import 'package:agricu/screens/wrapper.dart';
@@ -39,21 +38,29 @@ class RouterClass {
         initialLocation: RoutePath.home,
         navigatorKey: rootNavigatorKey,
         redirect: (context, state) async {
-//           final user = authenticationRepository.currentUser;
+          if (authenticationRepository.onboarded == null ||
+              authenticationRepository.onboarded == false) {
+            return RoutePath.onboarding;
+          }
+          final user = authenticationRepository.currentUser;
+          if (user == null &&
+              !(state.fullPath!.contains(RoutePath.VerifyEmail) ||
+                  state.fullPath!.contains(RoutePath.login) ||
+                  state.fullPath!.contains(RoutePath.signup) ||
+                  state.fullPath!.contains(RoutePath.forgotPasswordSub))) {
+            return RoutePath.login;
+          }
+
 //           // if (state.fullPath != null) {
 //           //   return state.fullPath;
 //           // }
-//           log('redirect running');
+//
 //           if (user != null && state.) {
 //             log('redirect runninga');
 //             return RoutePath.home;
 //           }
-//           if (user == null) {
-//             log('redirect running asdf');
-//             return RoutePath.login;
-//           }
-// d
-//           return null;
+
+          return null;
         },
         routes: [
           GoRoute(
@@ -74,6 +81,11 @@ class RouterClass {
               path: RoutePath.signup,
               builder: (context, state) {
                 return const SignUpScreen();
+              }),
+          GoRoute(
+              path: RoutePath.onboarding,
+              builder: (context, state) {
+                return const OnBoarding();
               }),
           GoRoute(
               path: RoutePath.VerifyEmail,

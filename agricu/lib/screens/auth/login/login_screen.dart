@@ -29,9 +29,32 @@ class LoginScreen extends StatelessWidget {
             log('login was successfull going to ${RoutePath.home}');
             context.go(RoutePath.home);
           }
+          if (state.loadingState == LoadingState.failed) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage!,
+                    style: AppStyles.regular.copyWith(color: Colors.white)),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top,
+                ),
+              ),
+            );
+          }
         },
         builder: (context, state) {
           return Scaffold(
+            bottomSheet:
+                state.googleAuthLoading != null && state.googleAuthLoading!
+                    ? const LinearProgressIndicator(
+                        color: darkGreen,
+                      )
+                    : const SizedBox(),
             body: Form(
               key: signinKey,
               child: Column(
@@ -144,7 +167,11 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             const Gap(20),
-                            GoogleButton()
+                            GoogleButton(
+                              onPressed: () {
+                                context.read<LoginBloc>().add(OnGoogleSignIn());
+                              },
+                            )
                           ],
                         ),
                       ),

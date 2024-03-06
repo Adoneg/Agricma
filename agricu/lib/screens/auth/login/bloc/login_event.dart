@@ -16,3 +16,5 @@ class OnChangedPassword extends LoginEvent {
 class OnSubmitClicked extends LoginEvent {
   OnSubmitClicked();
 }
+
+class OnGoogleSignIn extends LoginEvent {}

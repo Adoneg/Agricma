@@ -7,14 +7,18 @@ class SignupState {
   final String? password;
   final String? confirmPassword;
   final LoadingState? loadingState;
+  final String? errorMessage;
+  final bool? googleAuthLoading;
 
   const SignupState({
+    this.googleAuthLoading,
     this.fullName,
     this.email,
     this.phone,
     this.confirmPassword,
     this.loadingState = LoadingState.initial,
     this.password,
+    this.errorMessage,
   });
 
   SignupState copyWith({
@@ -24,14 +28,17 @@ class SignupState {
     String? password,
     String? confirmPassword,
     LoadingState? loadingState,
+    String? errorMessage,
+    bool? googleAuthLoading,
   }) {
     return SignupState(
-      fullName: fullName ?? this.fullName,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      phone: phone ?? this.phone,
-      loadingState: loadingState ?? this.loadingState,
-    );
+        googleAuthLoading: googleAuthLoading ?? this.googleAuthLoading,
+        fullName: fullName ?? this.fullName,
+        email: email ?? this.email,
+        password: password ?? this.password,
+        confirmPassword: confirmPassword ?? this.confirmPassword,
+        phone: phone ?? this.phone,
+        loadingState: loadingState ?? this.loadingState,
+        errorMessage: errorMessage ?? this.errorMessage);
   }
 }

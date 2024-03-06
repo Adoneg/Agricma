@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:agricu/enums/loading_state_enum.dart';
 import 'package:agricu/routes/route_names.dart';
 import 'package:agricu/screens/auth/form_keys.dart';
@@ -21,11 +23,39 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignupBloc(),
-      child: Scaffold(
-        body: BlocConsumer<SignupBloc, SignupState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return Form(
+      child: BlocConsumer<SignupBloc, SignupState>(
+        listener: (context, state) {
+          if (state.loadingState == LoadingState.success) {
+            log('Signup was successfull going to ${RoutePath.home}');
+            context.go(RoutePath.home);
+          }
+          if (state.loadingState == LoadingState.failed) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage!,
+                    style: AppStyles.regular.copyWith(color: Colors.white)),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top,
+                ),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            bottomSheet:
+                state.googleAuthLoading != null && state.googleAuthLoading!
+                    ? const LinearProgressIndicator(
+                        color: darkGreen,
+                      )
+                    : const SizedBox(),
+            body: Form(
               key: signupKey,
               child: Column(
                 children: [
@@ -180,7 +210,13 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             const Gap(20),
-                            GoogleButton()
+                            GoogleButton(
+                              onPressed: () {
+                                context
+                                    .read<SignupBloc>()
+                                    .add(OnGoogleSignIn());
+                              },
+                            )
                           ],
                         ),
                       ),
@@ -207,9 +243,9 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

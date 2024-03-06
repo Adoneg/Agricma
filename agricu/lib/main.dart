@@ -1,10 +1,12 @@
-import 'package:agricu/repository/authentication_repository.dart';
-import 'package:agricu/repository/user_repository.dart';
+import 'package:agricu/constants.dart';
 import 'package:agricu/routes/routes.dart';
+import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -15,7 +17,7 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVlYWlzaGtjcWxncGVzYnpjc3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDg1MTg1NzksImV4cCI6MjAyNDA5NDU3OX0.dWBjVH9kukKNCIxceJ-712cE8pGmHiy5f-IR9I-k4-8',
   );
-
+  prefs = await SharedPreferences.getInstance();
   DotEnv().load();
   final routes = RouterClass.instance;
   runApp(MyApp(routes: routes.getRoutes()));
@@ -31,9 +33,16 @@ class MyApp extends StatelessWidget {
       child: ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,
-        child: MaterialApp.router(
-          title: 'Agricu',
-          routerConfig: routes,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => ProfileBloc(),
+            ),
+          ],
+          child: MaterialApp.router(
+            title: 'Agricu',
+            routerConfig: routes,
+          ),
         ),
       ),
     );

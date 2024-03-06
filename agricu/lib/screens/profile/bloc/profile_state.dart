@@ -1,6 +1,12 @@
 part of 'profile_bloc.dart';
 
-@immutable
-sealed class ProfileState {}
+class ProfileState {
+  final LoadingState? signOutState;
+  ProfileState({this.signOutState = LoadingState.initial});
 
-final class ProfileInitial extends ProfileState {}
+  ProfileState copyWith({LoadingState? signOutState}) {
+    return ProfileState(
+      signOutState: signOutState ?? this.signOutState,
+    );
+  }
+}
