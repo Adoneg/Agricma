@@ -1,4 +1,3 @@
-import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
