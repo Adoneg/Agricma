@@ -109,12 +109,25 @@ class RouterClass {
                       },
                       routes: [
                         GoRoute(
-                          name: RoutePath.uploadProduct,
-                          path: RoutePath.uploadProduct,
-                          builder: (context, state) {
-                            return const UploadProduct();
-                          },
-                        )
+                            name: RoutePath.uploadProduct,
+                            path: RoutePath.uploadProduct,
+                            builder: (context, state) {
+                              return const UploadProduct();
+                            },
+                            routes: [
+                              GoRoute(
+                                  name: 'success-product',
+                                  path: RoutePath.success + "-product",
+                                  builder: (context, state) {
+                                    return Success(
+                                      message: state.uri
+                                          .queryParameters['message'] as String,
+                                      onPressed: () {
+                                        context.replace(RoutePath.home);
+                                      },
+                                    );
+                                  })
+                            ])
                       ]),
                 ]),
                 StatefulShellBranch(navigatorKey: shellNavigatorKey, routes: [
@@ -146,26 +159,24 @@ class RouterClass {
                             path: RoutePath.requestToSell,
                             builder: (context, state) {
                               return const RequestToSell();
-                            })
+                            },
+                            routes: [
+                              GoRoute(
+                                  name: 'success',
+                                  path: RoutePath.success,
+                                  builder: (context, state) {
+                                    return Success(
+                                      message: state.uri
+                                          .queryParameters['message'] as String,
+                                      onPressed: () {
+                                        context.replace(RoutePath.profile);
+                                      },
+                                    );
+                                  })
+                            ]),
                       ]),
                 ]),
               ]),
-          GoRoute(
-              name: 'success',
-              path: RoutePath.success,
-              builder: (context, state) {
-                return Success(
-                  message: state.uri.queryParameters['message'] as String,
-                  onPressed: () {
-                    if (state.uri.queryParameters['message'] ==
-                        'Request To Sell Sent Successfully') {
-                      context.replace(RoutePath.profile);
-                    } else {
-                      context.replace(RoutePath.profile);
-                    }
-                  },
-                );
-              })
         ]);
   }
 

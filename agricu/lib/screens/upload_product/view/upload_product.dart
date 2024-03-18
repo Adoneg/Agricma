@@ -2,15 +2,18 @@ import 'dart:io';
 
 import 'package:agricu/enums/category_enum.dart';
 import 'package:agricu/enums/fetch_state_enum.dart';
+import 'package:agricu/routes/route_names.dart';
 import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:agricu/screens/upload_product/bloc/upload_product_bloc.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
+import 'package:agricu/widgets/custom_snackbars.dart';
 import 'package:agricu/widgets/outline_button.dart';
 import 'package:agricu/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 final uploadProductKey = GlobalKey<FormState>();
@@ -118,7 +121,20 @@ class _UploadProductState extends State<UploadProduct> {
       create: (context) => UploadProductBloc(
           user: BlocProvider.of<ProfileBloc>(context).state.currentUser),
       child: BlocConsumer<UploadProductBloc, UploadProductState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state.uploadState == FetchState.success) {
+            context.goNamed("${RoutePath.success}-product", queryParameters: {
+              'message': 'Request To Sell Sent Successfully'
+            });
+          }
+          if (state.uploadState == FetchState.failed) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+                snackBar("Error Occured while updating product", () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            }, context));
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
