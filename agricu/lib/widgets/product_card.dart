@@ -29,14 +29,11 @@ class _ProductCardState extends State<ProductCard> {
               SizedBox(
                 height: 100.h,
                 width: 120.w,
-                child: Hero(
-                  tag: '${widget.product.productId}',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      widget.product.image!,
-                      fit: BoxFit.cover,
-                    ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    widget.product.image!,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

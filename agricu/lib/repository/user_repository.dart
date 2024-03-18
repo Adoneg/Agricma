@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:agricu/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserRepository {
@@ -32,8 +31,9 @@ class UserRepository {
       final user = await supabase.client
           .from('USERS')
           .select()
-          .eq('id', supabase.client.auth.currentUser!.id)
+          .eq('user_id', supabase.client.auth.currentUser!.id)
           .single();
+      log('$user');
       return AppUser.fromJson(user);
     } on PostgrestException catch (e) {
       log('$e');
@@ -66,7 +66,6 @@ class UserRepository {
       log('$e');
       return [];
     } catch (e) {
-      print('$e');
       return [];
     }
   }
@@ -102,23 +101,6 @@ class UserRepository {
   //   } on PostgrestException catch (e) {
   //     print(e);
   //   }
-
-  // Future<String?> _uploadImage(XFile image) async {
-  //   try {
-  //     final bytes = await image.readAsBytes();
-  //     final fileName = image.name;
-  //     await supabase.client.storage
-  //         .from('userImages')
-  //         .uploadBinary(fileName, bytes);
-  //     final imageUrl = await supabase.client.storage
-  //         .from('userImages')
-  //         .createSignedUrl(fileName, 60 * 60 * 24 * 365 * 10);
-  //     return imageUrl;
-  //   } on StorageException catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  // }
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,

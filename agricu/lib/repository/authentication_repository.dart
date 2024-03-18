@@ -141,6 +141,12 @@ class AuthenticationRepository {
     }
   }
 
+  Future<void> sendPasswordReset(String? email) async {
+    await supabaseInstance.client.auth.resetPasswordForEmail(
+      email!,
+    );
+  }
+
   Future setOnboarded() async {
     await prefs?.setBool('onboarded', true);
   }

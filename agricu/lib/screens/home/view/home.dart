@@ -1,4 +1,5 @@
-import 'package:agricu/models/category_enum.dart';
+import 'package:agricu/enums/category_enum.dart';
+import 'package:agricu/routes/route_names.dart';
 import 'package:agricu/screens/home/bloc/home_bloc.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,7 +28,9 @@ class _HomeState extends State<Home> {
         builder: (context, state) {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.goNamed(RoutePath.uploadProduct);
+              },
               child: Icon(Icons.add),
             ),
             extendBody: true,

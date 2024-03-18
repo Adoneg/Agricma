@@ -10,8 +10,11 @@ import 'package:agricu/screens/favourites/view/favourites_screen.dart';
 import 'package:agricu/screens/home/view/home.dart';
 import 'package:agricu/screens/onboarding/view/onboarding_view.dart';
 import 'package:agricu/screens/profile/view/profile_screen.dart';
+import 'package:agricu/screens/request_to_sell/view/request_to_sell.dart';
 import 'package:agricu/screens/shopping_cart/view/shopping_cart_screen.dart';
+import 'package:agricu/screens/upload_product/view/upload_product.dart';
 import 'package:agricu/screens/wrapper.dart';
+import 'package:agricu/widgets/success.dart';
 import 'package:go_router/go_router.dart';
 
 class RouterClass {
@@ -44,7 +47,7 @@ class RouterClass {
           }
           final user = authenticationRepository.currentUser;
           if (user == null &&
-              !(state.fullPath!.contains(RoutePath.VerifyEmail) ||
+              !(state.fullPath!.contains(RoutePath.verifyEmail) ||
                   state.fullPath!.contains(RoutePath.login) ||
                   state.fullPath!.contains(RoutePath.signup) ||
                   state.fullPath!.contains(RoutePath.forgotPasswordSub))) {
@@ -88,7 +91,7 @@ class RouterClass {
                 return const OnBoarding();
               }),
           GoRoute(
-              path: RoutePath.VerifyEmail,
+              path: RoutePath.verifyEmail,
               builder: (context, state) {
                 return const VerifyEmail();
               }),
@@ -100,11 +103,19 @@ class RouterClass {
               branches: [
                 StatefulShellBranch(navigatorKey: shellNavigator1Key, routes: [
                   GoRoute(
-                    path: RoutePath.home,
-                    builder: (context, state) {
-                      return const Home();
-                    },
-                  ),
+                      path: RoutePath.home,
+                      builder: (context, state) {
+                        return const Home();
+                      },
+                      routes: [
+                        GoRoute(
+                          name: RoutePath.uploadProduct,
+                          path: RoutePath.uploadProduct,
+                          builder: (context, state) {
+                            return const UploadProduct();
+                          },
+                        )
+                      ]),
                 ]),
                 StatefulShellBranch(navigatorKey: shellNavigatorKey, routes: [
                   GoRoute(
@@ -124,13 +135,37 @@ class RouterClass {
                 ]),
                 StatefulShellBranch(navigatorKey: shellNavigator3Key, routes: [
                   GoRoute(
-                    path: RoutePath.profile,
-                    builder: (context, state) {
-                      return const ProfileScreen();
-                    },
-                  ),
+                      path: RoutePath.profile,
+                      builder: (context, state) {
+                        return const ProfileScreen();
+                      },
+                      routes: [
+                        GoRoute(
+                            name: RoutePath.requestToSell,
+                            parentNavigatorKey: rootNavigatorKey,
+                            path: RoutePath.requestToSell,
+                            builder: (context, state) {
+                              return const RequestToSell();
+                            })
+                      ]),
                 ]),
               ]),
+          GoRoute(
+              name: 'success',
+              path: RoutePath.success,
+              builder: (context, state) {
+                return Success(
+                  message: state.uri.queryParameters['message'] as String,
+                  onPressed: () {
+                    if (state.uri.queryParameters['message'] ==
+                        'Request To Sell Sent Successfully') {
+                      context.replace(RoutePath.profile);
+                    } else {
+                      context.replace(RoutePath.profile);
+                    }
+                  },
+                );
+              })
         ]);
   }
 

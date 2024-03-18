@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:agricu/models/category_enum.dart';
+import 'package:agricu/enums/category_enum.dart';
 import 'package:agricu/models/product_section.dart';
 import 'package:agricu/screens/home/bloc/dummy.dart';
 import 'package:agricu/screens/home/bloc/home_page_enums.dart';

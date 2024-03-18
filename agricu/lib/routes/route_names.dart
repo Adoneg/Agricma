@@ -11,6 +11,9 @@ class RoutePath {
   static const orders = "/orders";
   static const notifications = "/notifications";
   static const payment = "/payment";
-  static const VerifyEmail = "/verify";
+  static const verifyEmail = "/verify";
+  static const success = "/success";
   static const forgotPasswordSub = "forgot-password";
+  static const requestToSell = "request-to-sell";
+  static const uploadProduct = "upload-product";
 }

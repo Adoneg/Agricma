@@ -1,4 +1,5 @@
 import 'package:agricu/constants.dart';
+import 'package:agricu/repository/authentication_repository.dart';
 import 'package:agricu/routes/routes.dart';
 import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,9 @@ class MyApp extends StatelessWidget {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => ProfileBloc(),
+              lazy: false,
+              create: (context) =>
+                  ProfileBloc(auth: AuthenticationRepository())..add(OnInit()),
             ),
           ],
           child: MaterialApp.router(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agricu/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,13 +12,11 @@ class Wrapper extends StatefulWidget {
 
 class _WrapperState extends State<Wrapper> {
   void _onTapBottomNav(int index) {
-    log('$index');
     widget.navigationShell.goBranch(index, initialLocation: true);
   }
 
   @override
   Widget build(BuildContext context) {
-    log('${widget.navigationShell.currentIndex}');
     return Scaffold(
       body: widget.navigationShell,
       bottomNavigationBar: BottomNavBar(

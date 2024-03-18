@@ -39,22 +39,26 @@ class ProfileScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50)),
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Image.asset(
-                          'assets/images/tropicana.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(50),
+                          child: state.currentUser?.picture == null
+                              ? Image.asset(
+                                  'assets/images/tropicana.jpg',
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  state.currentUser!.picture!,
+                                  fit: BoxFit.cover,
+                                )),
                     ),
                   ],
                 ),
                 Text(
-                  "Victor Adoneg",
+                  state.currentUser!.name ?? "",
                   style:
                       AppStyles.regular.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "hey@gmail.com",
+                  state.currentUser!.email ?? "",
                   style: AppStyles.regular.copyWith(
                     fontSize: 12,
                   ),
@@ -68,7 +72,9 @@ class ProfileScreen extends StatelessWidget {
                   leadingIcon: Icons.mode_edit_outlined,
                   title: "Request to sell",
                   color: brown,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.goNamed(RoutePath.requestToSell);
+                  },
                 ),
                 ProfileListTile(
                   leadingIcon: Icons.history,

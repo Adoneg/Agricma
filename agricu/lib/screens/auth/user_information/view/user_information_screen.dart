@@ -2,7 +2,6 @@ import 'package:agricu/screens/home/view/home.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
 import 'package:agricu/widgets/outline_button.dart';
-import 'package:agricu/widgets/success.dart';
 import 'package:agricu/widgets/verifying.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
