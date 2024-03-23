@@ -56,18 +56,17 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      seller: AppUser.fromJson(json['USERS']),
-      productId: json['id'].toString(),
-      category: CategoryEnum.fromString(json['category']),
-      name: json['product_name'],
-      price: json['price'],
-      image: json['image'],
-      status: Availability.fromString(json['availability']),
-      description: json['description'],
-      maxPrepTime: json['max_prep_time'],
-      createdAt: DateFormat('yyyy-MM-dd HH:mm:ss').parseUTC(json['created_at']),
-      updatedAt: DateFormat('yyyy-MM-dd HH:mm:ss').parseUTC(json['updated_at']),
-    );
+        seller: json['USERS'] == null ? null : AppUser.fromJson(json['USERS']),
+        productId: json['id'].toString(),
+        category: CategoryEnum.fromString(json['category']),
+        name: json['product_name'],
+        price: json['price'],
+        image: json['image'],
+        status: Availability.fromString(json['availability']),
+        description: json['description'],
+        maxPrepTime: json['max_prep_time'],
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']));
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:agricu/enums/category_enum.dart';
 import 'package:agricu/routes/route_names.dart';
 import 'package:agricu/screens/home/bloc/home_bloc.dart';
+import 'package:agricu/screens/home/bloc/home_page_enums.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
 import 'package:agricu/widgets/category_tab.dart';
@@ -22,16 +23,22 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(),
+      create: (context) => HomeBloc()..add(GetProductsEvent()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
+              backgroundColor: brown,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
               onPressed: () {
                 context.goNamed(RoutePath.uploadProduct);
               },
-              child: Icon(Icons.add),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
             extendBody: true,
             body: Stack(children: [
@@ -47,8 +54,8 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                              height: 65,
-                              width: 65,
+                              height: MediaQuery.of(context).size.width * 0.12,
+                              width: MediaQuery.of(context).size.width * 0.12,
                               child: Image.asset(
                                 'assets/images/agricma_logo.png',
                                 fit: BoxFit.cover,
@@ -72,80 +79,80 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CategoryTab(
-                                active: true,
-                                title: CategoryEnum.values[0].name),
-                            const Gap(5),
-                            CategoryTab(
-                                active: false,
-                                title: CategoryEnum.values[1].name),
-                            const Gap(5),
-                            const CategoryTab(
-                                active: false, title: 'Dry Fruits')
+                            ...CategoryEnum.values.map(
+                              (e) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: CategoryTab(
+                                    active: state.category == e,
+                                    title: e.toDBString(),
+                                    onTap: () {
+                                      context.read<HomeBloc>().add(
+                                          OnChangedCategory(categoryEnum: e));
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                         Expanded(
-                            child: Container(
-                          child: ListView.separated(
-                              separatorBuilder: (context, index) =>
-                                  const Gap(25),
-                              itemCount: state.productSection!.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            state.productSection![index].title!,
-                                            style: AppStyles.title
-                                                .copyWith(fontSize: 18),
-                                          ),
-                                          const Gap(20),
-                                          Text(
-                                            '(${state.productSection![index].discount}% off)',
-                                            style: AppStyles.labelStyle
-                                                .copyWith(
-                                                    color: lightGreen,
-                                                    fontSize: 14),
-                                          )
-                                        ],
-                                      ),
-                                      const Gap(10),
-                                      Text(
-                                        state.productSection![index]
-                                            .description!,
-                                        style: AppStyles.labelStyle,
-                                      ),
-                                      const Gap(20),
-                                      SizedBox(
-                                        height: 160.h,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: ListView.separated(
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const Gap(5),
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: state
-                                                .productSection![index]
-                                                .products!
-                                                .length,
-                                            itemBuilder: (context, index2) {
-                                              return ProductCard(
-                                                  product: state
-                                                      .productSection![index]
-                                                      .products![index2]);
-                                            }),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ))
+                            child: Container(child: Builder(builder: (context) {
+                          return switch (state.status) {
+                            null => Center(),
+                            Status.failed => Center(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "No Products",
+                                      style: AppStyles.regular
+                                          .copyWith(color: darkGreen),
+                                    ),
+                                    const Gap(20),
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          context
+                                              .read<HomeBloc>()
+                                              .add(GetProductsEvent());
+                                        },
+                                        child: Text(
+                                          "No Products",
+                                          style: AppStyles.regular
+                                              .copyWith(color: darkGreen),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            Status.loading => const Center(
+                                child: CircularProgressIndicator(
+                                  color: darkGreen,
+                                ),
+                              ),
+                            Status.success => GridView.count(
+                                childAspectRatio:
+                                    (MediaQuery.of(context).size.width * 0.5) /
+                                        200.h,
+                                crossAxisCount: 2,
+                                addAutomaticKeepAlives: true,
+                                children: [
+                                  ...List.generate(
+                                      state.products?.length ?? 0,
+                                      (index) => Center(
+                                            child: ProductCard(
+                                                product:
+                                                    state.products![index]),
+                                          ))
+                                ],
+                              ),
+                            Status.empty => Center(
+                                child: Text(
+                                  "No Products",
+                                  style: AppStyles.regular
+                                      .copyWith(color: darkGreen),
+                                ),
+                              ),
+                          };
+                        })))
                       ],
                     ),
                   ))
@@ -192,3 +199,71 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
+
+
+
+  //  Expanded(
+  //                           child: Container(
+  //                         child: ListView.separated(
+  //                             separatorBuilder: (context, index) =>
+  //                                 const Gap(25),
+  //                             itemCount: state.productSection!.length,
+  //                             itemBuilder: (context, index) {
+  //                               return Padding(
+  //                                 padding: const EdgeInsets.all(8.0),
+  //                                 child: Column(
+  //                                   crossAxisAlignment:
+  //                                       CrossAxisAlignment.start,
+  //                                   children: [
+  //                                     Row(
+  //                                       children: [
+  //                                         Text(
+  //                                           state.productSection![index].title!,
+  //                                           style: AppStyles.title
+  //                                               .copyWith(fontSize: 18),
+  //                                         ),
+  //                                         const Gap(20),
+  //                                         Text(
+  //                                           '(${state.productSection![index].discount}% off)',
+  //                                           style: AppStyles.labelStyle
+  //                                               .copyWith(
+  //                                                   color: lightGreen,
+  //                                                   fontSize: 14),
+  //                                         )
+  //                                       ],
+  //                                     ),
+  //                                     const Gap(10),
+  //                                     Text(
+  //                                       state.productSection![index]
+  //                                           .description!,
+  //                                       style: AppStyles.labelStyle,
+  //                                     ),
+  //                                     const Gap(20),
+  //                                     SizedBox(
+  //                                       height: 160.h,
+  //                                       width:
+  //                                           MediaQuery.of(context).size.width,
+  //                                       child: ListView.separated(
+  //                                           separatorBuilder:
+  //                                               (context, index) =>
+  //                                                   const Gap(5),
+  //                                           scrollDirection: Axis.horizontal,
+  //                                           itemCount: state
+  //                                               .productSection![index]
+  //                                               .products!
+  //                                               .length,
+  //                                           itemBuilder: (context, index2) {
+  //                                             return ProductCard(
+  //                                                 product: state
+  //                                                     .productSection![index]
+  //                                                     .products![index2]);
+  //                                           }),
+  //                                     )
+  //                                   ],
+  //                                 ),
+  //                               );
+  //                             }),
+  //                       ))
+                     

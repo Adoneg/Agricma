@@ -10,7 +10,7 @@ class Storage {
     try {
       final bytes = await image.readAsBytes();
       final fileName =
-          image.name + DateTime.now().microsecondsSinceEpoch.toString();
+          DateTime.now().microsecondsSinceEpoch.toString() + image.name;
       await supabase.client.storage.from(dir).uploadBinary(fileName, bytes);
       final imageUrl = await supabase.client.storage
           .from(dir)

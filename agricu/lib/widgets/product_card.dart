@@ -22,19 +22,20 @@ class _ProductCardState extends State<ProductCard> {
             builder: (context) => ProductDetails(product: widget.product)));
       },
       child: SizedBox(
-        width: 150.w,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Stack(
             children: [
               SizedBox(
-                height: 100.h,
-                width: 120.w,
+                height: 120.h,
+                width: 150.w,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    widget.product.image!,
-                    fit: BoxFit.cover,
-                  ),
+                  child: widget.product.image == null
+                      ? Image.asset('assets/images/agricma_logo.png')
+                      : Image.network(
+                          widget.product.image!,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               Positioned(
@@ -86,7 +87,7 @@ class _ProductCardState extends State<ProductCard> {
           ),
           const Gap(5),
           Text(
-            widget.product.priceQuantityRatio ?? 'Great price',
+            " XAF ${widget.product.price} per ${widget.product.priceQuantityRatio}",
             style: AppStyles.labelStyle.copyWith(fontSize: 12),
           ),
         ]),

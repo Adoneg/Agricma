@@ -7,6 +7,7 @@ import 'package:agricu/screens/auth/helpers.dart';
 import 'package:agricu/screens/auth/signup/signup_bloc/signup_bloc.dart';
 import 'package:agricu/screens/auth/widgets/custom_text_field.dart';
 import 'package:agricu/screens/auth/widgets/google_button.dart';
+import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:agricu/themes/style.dart';
 import 'package:agricu/widgets/outline_button.dart';
@@ -22,7 +23,8 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignupBloc(),
+      create: (context) =>
+          SignupBloc(profileBloc: BlocProvider.of<ProfileBloc>(context)),
       child: BlocConsumer<SignupBloc, SignupState>(
         listener: (context, state) {
           if (state.loadingState == LoadingState.success) {

@@ -24,130 +24,81 @@ class _ProductDetailsState extends State<ProductDetails> {
           style: AppStyles.btn.copyWith(fontSize: 18),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 120.h,
-                width: 300.h,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(5)),
-                child: Hero(
-                  tag: '${widget.product.productId}',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
-                    child: Image.asset(
-                      widget.product.image!,
-                      fit: BoxFit.cover,
-                    ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 120.h,
+                        width: 300.h,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Hero(
+                          tag: '${widget.product.productId}',
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: widget.product.image == null
+                                  ? Image.asset(
+                                      widget.product.image!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.network(
+                                      widget.product.image!,
+                                      fit: BoxFit.cover,
+                                    )),
+                        ),
+                      ),
+                      const Gap(5),
+                      Text(
+                        widget.product.name!,
+                        style: AppStyles.title,
+                      ),
+                      const Gap(5),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 300.w,
+                          child: Text(
+                            '${widget.product.description!} ',
+                            maxLines: 10,
+                            textAlign: TextAlign.justify,
+                            style: AppStyles.labelStyle,
+                          ),
+                        ),
+                      ),
+                      const Gap(25),
+                    ],
                   ),
                 ),
               ),
-              const Gap(5),
-              Text(
-                widget.product.name!,
-                style: AppStyles.title,
-              ),
-              const Gap(5),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 300.w,
-                  child: Text(
-                    '${widget.product.name!} are thehadflakj afjadlfkj aasfjalalsa ldfasaslflk askf sdaflsadlkafj asdalf asdf lasdkfjal;s al klajdfk alsdkfjkald asdf;lkj',
-                    maxLines: 10,
-                    textAlign: TextAlign.justify,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'XAF ${widget.product.price}',
                     style: AppStyles.labelStyle,
                   ),
-                ),
-              ),
-              const Gap(25),
-              Text(
-                "Nutrition",
-                style: AppStyles.title,
-              ),
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.grey,
+                  OutlineButtonWidget(
+                    backgroundColor: lightGreen,
+                    width: 100.w,
+                    child: Text(
+                      'Buy Now',
+                      style: AppStyles.btn,
                     ),
-                    title: Text(
-                      'First item',
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.grey,
-                    ),
-                    title: Text('Second item'),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.grey,
-                    ),
-                    title: Text('Third item'),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.grey,
-                    ),
-                    title: Text('Third item'),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.grey,
-                    ),
-                    title: Text('Third item'),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.grey,
-                    ),
-                    title: Text('Third item'),
-                  ),
+                  )
                 ],
               ),
-              Gap(20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${widget.product.priceQuantityRatio}',
-                      style: AppStyles.labelStyle,
-                    ),
-                    OutlineButtonWidget(
-                      backgroundColor: lightGreen,
-                      width: 100.w,
-                      child: Text(
-                        'Buy Now',
-                        style: AppStyles.btn,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

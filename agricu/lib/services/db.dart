@@ -26,12 +26,18 @@ class DBMethods {
     }
   }
 
-  Future getProducts() async {
+  Future<List<Product>> getProducts() async {
     try {
-      final res = await supabase.client.from('PRODUCTS').select('*,USERS(*)');
-      log('$res');
+      final res = await supabase.client
+          .from('PRODUCTS')
+          .select('*,USERS(*)')
+          .not('seller_id', 'eq', Null);
+      if (res.isEmpty) {
+        return [];
+      } else {
+        return res.map((e) => Product.fromJson(e)).toList();
+      }
     } catch (e) {
-      log('$e');
       throw Exception(e);
     }
   }

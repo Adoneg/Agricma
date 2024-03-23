@@ -12,6 +12,7 @@ import 'package:agricu/screens/onboarding/view/onboarding_view.dart';
 import 'package:agricu/screens/profile/view/profile_screen.dart';
 import 'package:agricu/screens/request_to_sell/view/request_to_sell.dart';
 import 'package:agricu/screens/shopping_cart/view/shopping_cart_screen.dart';
+import 'package:agricu/screens/splash/splash_screen.dart';
 import 'package:agricu/screens/upload_product/view/upload_product.dart';
 import 'package:agricu/screens/wrapper.dart';
 import 'package:agricu/widgets/success.dart';
@@ -38,14 +39,14 @@ class RouterClass {
 
   GoRouter getRoutes() {
     return GoRouter(
-        initialLocation: RoutePath.home,
+        initialLocation: RoutePath.splash,
         navigatorKey: rootNavigatorKey,
         redirect: (context, state) async {
           if (authenticationRepository.onboarded == null ||
               authenticationRepository.onboarded == false) {
             return RoutePath.onboarding;
           }
-          final user = authenticationRepository.currentUser;
+          final user = authenticationRepository.currenSupabaseUser;
           if (user == null &&
               !(state.fullPath!.contains(RoutePath.verifyEmail) ||
                   state.fullPath!.contains(RoutePath.login) ||
@@ -53,16 +54,6 @@ class RouterClass {
                   state.fullPath!.contains(RoutePath.forgotPasswordSub))) {
             return RoutePath.login;
           }
-
-//           // if (state.fullPath != null) {
-//           //   return state.fullPath;
-//           // }
-//
-//           if (user != null && state.) {
-//             log('redirect runninga');
-//             return RoutePath.home;
-//           }
-
           return null;
         },
         routes: [
@@ -84,6 +75,11 @@ class RouterClass {
               path: RoutePath.signup,
               builder: (context, state) {
                 return const SignUpScreen();
+              }),
+          GoRoute(
+              path: RoutePath.splash,
+              builder: (context, state) {
+                return const SplashScreen();
               }),
           GoRoute(
               path: RoutePath.onboarding,

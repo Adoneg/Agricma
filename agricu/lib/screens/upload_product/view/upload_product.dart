@@ -107,7 +107,10 @@ class _UploadProductState extends State<UploadProduct> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('OK'),
+              child: Text(
+                'OK',
+                style: AppStyles.regular.copyWith(color: brown),
+              ),
             ),
           ],
         );

@@ -151,7 +151,7 @@ class AuthenticationRepository {
     await prefs?.setBool('onboarded', true);
   }
 
-  User? get currentUser => supabaseInstance.client.auth.currentUser;
+  User? get currenSupabaseUser => supabaseInstance.client.auth.currentUser;
 
   bool? get onboarded => prefs?.getBool('onboarded');
 }

@@ -5,6 +5,7 @@ import 'package:agricu/enums/loading_state_enum.dart';
 import 'package:agricu/enums/signin_type_enum.dart';
 import 'package:agricu/models/user.dart';
 import 'package:agricu/repository/authentication_repository.dart';
+import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +14,8 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final auth = AuthenticationRepository();
-  SignupBloc() : super(const SignupState()) {
+  final ProfileBloc? profileBloc;
+  SignupBloc({required this.profileBloc}) : super(const SignupState()) {
     on<OnChangedName>((event, emit) {
       emit(state.copyWith(fullName: event.name));
     });
@@ -43,7 +45,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         );
 
         log('${state.fullName}');
-        await auth.signUpEmailAndPassword(appUser, state.password!);
+        final user =
+            await auth.signUpEmailAndPassword(appUser, state.password!);
+        profileBloc?.add(OnSetCurrentUser(currentUser: user));
         emit(state.copyWith(loadingState: LoadingState.success));
       } catch (e) {
         log(e.toString());
@@ -56,7 +60,8 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       emit(state.copyWith(
           googleAuthLoading: true, loadingState: LoadingState.initial));
       try {
-        await auth.googleSignin();
+        final user = await auth.googleSignin();
+        profileBloc?.add(OnSetCurrentUser(currentUser: user));
         emit(state.copyWith(loadingState: LoadingState.success));
       } catch (e) {
         log(e.toString());
