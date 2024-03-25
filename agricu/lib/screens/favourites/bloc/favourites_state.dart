@@ -1,6 +1,14 @@
 part of 'favourites_bloc.dart';
 
-@immutable
-sealed class FavouritesState {}
+class FavouritesState {
+  final List<Favourite> favourites;
+  final Status? status;
+  FavouritesState({this.favourites = const [], this.status});
 
-final class FavouritesInitial extends FavouritesState {}
+  FavouritesState copyWith({List<Favourite>? favourites, Status? status}) {
+    return FavouritesState(
+      favourites: favourites ?? this.favourites,
+      status: status ?? this.status,
+    );
+  }
+}

@@ -1,5 +1,8 @@
+import 'package:agricu/screens/home/bloc/home_bloc.dart';
+import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Wrapper extends StatefulWidget {
@@ -17,11 +20,17 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.navigationShell,
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: widget.navigationShell.currentIndex,
-        onTap: _onTapBottomNav,
+    return BlocProvider(
+      create: (context) =>
+          HomeBloc(profileBloc: BlocProvider.of<ProfileBloc>(context))
+            ..add(OnGetFavourites())
+            ..add(GetProductsEvent()),
+      child: Scaffold(
+        body: widget.navigationShell,
+        bottomNavigationBar: BottomNavBar(
+          currentIndex: widget.navigationShell.currentIndex,
+          onTap: _onTapBottomNav,
+        ),
       ),
     );
   }

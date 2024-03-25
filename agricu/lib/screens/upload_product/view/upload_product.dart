@@ -55,7 +55,7 @@ class _UploadProductState extends State<UploadProduct> {
   };
 
   List<DropdownMenuItem<CategoryEnum>> _buildCategoryEnumDropdownItems() {
-    return CategoryEnum.values.map((CategoryEnum value) {
+    return CategoryEnum.values.sublist(1).map((CategoryEnum value) {
       return DropdownMenuItem<CategoryEnum>(
         value: value,
         child: Text(value.toString().split('.').last),
@@ -126,9 +126,8 @@ class _UploadProductState extends State<UploadProduct> {
       child: BlocConsumer<UploadProductBloc, UploadProductState>(
         listener: (context, state) {
           if (state.uploadState == FetchState.success) {
-            context.goNamed("${RoutePath.success}-product", queryParameters: {
-              'message': 'Request To Sell Sent Successfully'
-            });
+            context.replaceNamed("${RoutePath.success}-product",
+                queryParameters: {'message': 'Product successfully uploaded'});
           }
           if (state.uploadState == FetchState.failed) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();

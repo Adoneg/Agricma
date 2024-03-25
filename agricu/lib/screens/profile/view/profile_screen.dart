@@ -1,3 +1,4 @@
+import 'package:agricu/enums/account_type_enum.dart';
 import 'package:agricu/enums/loading_state_enum.dart';
 import 'package:agricu/routes/route_names.dart';
 import 'package:agricu/screens/profile/bloc/profile_bloc.dart';
@@ -64,34 +65,49 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 ProfileListTile(
+                  color: Colors.red,
                   leadingIcon: Icons.favorite_outline,
                   title: "Favourites",
                   onPressed: () {},
                 ),
+                state.currentUser!.accountType == AccountType.seller ||
+                        state.currentUser!.hasApplied == true
+                    ? ProfileListTile(
+                        leadingIcon: Icons.mode_edit_outlined,
+                        title: "My Products",
+                        color: brown,
+                        onPressed: () {
+                          context.goNamed(RoutePath.requestToSell);
+                        },
+                      )
+                    : ProfileListTile(
+                        leadingIcon: Icons.mode_edit_outlined,
+                        title: "Request to sell",
+                        color: brown,
+                        onPressed: () {
+                          context.goNamed(RoutePath.requestToSell);
+                        },
+                      ),
                 ProfileListTile(
-                  leadingIcon: Icons.mode_edit_outlined,
-                  title: "Request to sell",
-                  color: brown,
-                  onPressed: () {
-                    context.goNamed(RoutePath.requestToSell);
-                  },
-                ),
-                ProfileListTile(
+                  color: Colors.blue,
                   leadingIcon: Icons.history,
                   title: "Order History",
                   onPressed: () {},
                 ),
                 ProfileListTile(
+                  color: darkGreen,
                   leadingIcon: Icons.payment,
                   title: "Payment Details",
                   onPressed: () {},
                 ),
                 ProfileListTile(
+                  color: const Color(0xff008080),
                   leadingIcon: Icons.settings,
                   title: "Settings",
                   onPressed: () {},
                 ),
                 ProfileListTile(
+                  color: const Color(0xff333333),
                   leadingIcon: Icons.logout,
                   title: "Logout",
                   onPressed: () {

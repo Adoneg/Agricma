@@ -62,7 +62,7 @@ class UploadProductBloc extends Bloc<UploadProductEvent, UploadProductState> {
             updatedAt: DateTime.now(),
             description: state.description,
             name: state.name,
-            price: double.parse(state.price!),
+            price: double.parse(state.price!).toDouble(),
             priceQuantityRatio: state.unitQuantity,
             status: Availability.available,
             stars: 3.0,

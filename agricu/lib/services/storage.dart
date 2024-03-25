@@ -18,7 +18,7 @@ class Storage {
       return imageUrl;
     } on StorageException catch (e) {
       log('Storage error $e');
-      return null;
+      throw Exception(e);
     }
   }
 }

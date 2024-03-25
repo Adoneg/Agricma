@@ -1,12 +1,16 @@
+import 'package:agricu/constants.dart';
+import 'package:agricu/models/favourites.dart';
+import 'package:agricu/screens/home/bloc/home_bloc.dart';
 import 'package:agricu/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../themes/style.dart';
 
 class FavouriteItem extends StatelessWidget {
-  const FavouriteItem({super.key});
-
+  const FavouriteItem({super.key, required this.favourite});
+  final Favourite favourite;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,12 +26,16 @@ class FavouriteItem extends StatelessWidget {
             width: 120,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                "assets/images/tropicana.jpg",
-                fit: BoxFit.cover,
-              ),
-            ),
+                borderRadius: BorderRadius.circular(10),
+                child: favourite.product?.image == null
+                    ? Image.asset(
+                        "assets/images/tropicana.jpg",
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        favourite.product!.image!,
+                        fit: BoxFit.cover,
+                      )),
           ),
           const SizedBox(
             width: 20,
@@ -43,13 +51,19 @@ class FavouriteItem extends StatelessWidget {
                       Expanded(
                         child: SizedBox(
                           child: Text(
-                            "Spicy ginger",
+                            favourite.product?.name ?? "",
                             style: AppStyles.regular,
                           ),
                         ),
                       ),
-                      const Icon(
-                        Icons.delete_outline_outlined,
+                      InkWell(
+                        onTap: () {
+                          BlocProvider.of<HomeBloc>(context)
+                              .add(OnRemoveFavourite(favourite: favourite));
+                        },
+                        child: const Icon(
+                          Icons.delete_outline_outlined,
+                        ),
                       ),
                     ],
                   ),
@@ -69,7 +83,7 @@ class FavouriteItem extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    "FCFA 5000",
+                    "FCFA ${formatPrice(favourite.product!.price!)}",
                     style: AppStyles.regular,
                   ),
                   Row(

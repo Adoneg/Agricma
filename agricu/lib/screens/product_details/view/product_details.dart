@@ -33,6 +33,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: SingleChildScrollView(
                 child: SizedBox(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         height: 120.h,
@@ -45,7 +46,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               borderRadius: BorderRadius.circular(5),
                               child: widget.product.image == null
                                   ? Image.asset(
-                                      widget.product.image!,
+                                      "assets/images/agricma_logo.png",
                                       fit: BoxFit.cover,
                                     )
                                   : Image.network(
